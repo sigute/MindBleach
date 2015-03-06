@@ -5,9 +5,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.sigute.mindbleach.kittenapi.KittenFactory;
+
 
 public class MainActivity extends ActionBarActivity
 {
+    private KittenFactory kittenFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -15,6 +18,7 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        kittenFactory = KittenFactory.getInstance(getApplicationContext());
     }
 
 
