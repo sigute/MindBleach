@@ -1,15 +1,16 @@
 package com.github.sigute.mindbleach.kittenapi;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Xml;
-
-import com.github.sigute.mindbleach.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +60,11 @@ public class KittenFactory
 
     private void addDefaultKittens()
     {
-        kittenList.add(new Kitten(context.getResources().getDrawable(R.drawable.default_kitten_1),
-                "http://www.public-domain-image.com/public-domain-images-pictures-free-stock-photos/fauna-animals-public-domain-images-pictures/cats-and-kittens-public-domain-images-pictures/exploring-kitten.jpg",
-                "test",
-                "http://www.public-domain-image.com/fauna-animals-public-domain-images-pictures/cats-and-kittens-public-domain-images-pictures/exploring-kitten.jpg.html",
-                "Exploring kitten by Rosendahl"));
+        // kittenList.add(new Kitten(context.getResources().getDrawable(R.drawable.default_kitten_1),
+        //         "http://www.public-domain-image.com/public-domain-images-pictures-free-stock-photos/fauna-animals-public-domain-images-pictures/cats-and-kittens-public-domain-images-pictures/exploring-kitten.jpg",
+        //         "test",
+        //         "http://www.public-domain-image.com/fauna-animals-public-domain-images-pictures/cats-and-kittens-public-domain-images-pictures/exploring-kitten.jpg.html",
+        //         "Exploring kitten by Rosendahl"));
     }
 
     private void fetchMoreKittens()
@@ -217,7 +218,14 @@ public class KittenFactory
                 skip(parser);
             }
         }
-        return new Kitten(null, url, id, source_url,
+
+        Bitmap kittenBitmap;
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.connect();
+        InputStream input = connection.getInputStream();
+        kittenBitmap = BitmapFactory.decodeStream(input);
+
+        return new Kitten(kittenBitmap, url, id, source_url,
                 "This kitten image comes from http://thecatapi.com");
     }
 
@@ -302,5 +310,11 @@ public class KittenFactory
 
         currentKittenIndex--;
         return kittenList.get(currentKittenIndex);
+    }
+
+    public Kitten[] getKittens()
+    {
+        Kitten[] list = new Kitten[0];
+        return kittenList.toArray(list);
     }
 }

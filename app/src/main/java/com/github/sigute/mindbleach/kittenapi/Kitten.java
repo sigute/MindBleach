@@ -1,19 +1,19 @@
 package com.github.sigute.mindbleach.kittenapi;
 
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 
 /**
  * Created by sigute on 04/03/2015.
  */
 public class Kitten
 {
-    private Drawable kittenImage;
+    private Bitmap kittenImage;
     private String imageURL;
     private String imageID;
     private String sourceURL;
     private String description;
 
-    public Kitten(Drawable kittenImage, String imageURL, String imageID, String sourceURL,
+    public Kitten(Bitmap kittenImage, String imageURL, String imageID, String sourceURL,
             String description)
     {
         this.kittenImage = kittenImage;
@@ -23,7 +23,7 @@ public class Kitten
         this.description = description;
     }
 
-    public Drawable getKittenImage()
+    public Bitmap getKittenImage()
     {
         return kittenImage;
     }
