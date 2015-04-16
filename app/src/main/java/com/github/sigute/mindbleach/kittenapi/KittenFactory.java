@@ -1,8 +1,6 @@
 package com.github.sigute.mindbleach.kittenapi;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -10,7 +8,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -219,14 +216,7 @@ public class KittenFactory
             }
         }
 
-        Bitmap kittenBitmap;
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.connect();
-        InputStream input = connection.getInputStream();
-        kittenBitmap = BitmapFactory.decodeStream(input);
-
-        return new Kitten(kittenBitmap, url, id, source_url,
-                "This kitten image comes from http://thecatapi.com");
+        return new Kitten(url, id, source_url);
     }
 
     private String readUrl(XmlPullParser parser) throws IOException, XmlPullParserException
@@ -312,9 +302,8 @@ public class KittenFactory
         return kittenList.get(currentKittenIndex);
     }
 
-    public Kitten[] getKittens()
+    public List<Kitten> getKittens()
     {
-        Kitten[] list = new Kitten[0];
-        return kittenList.toArray(list);
+        return kittenList;
     }
 }

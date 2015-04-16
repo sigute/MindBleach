@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/kitten_description_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:autoLink="web"
+        android:text="Kitten source: http://thecatapi.com"
+        />
+
+    <ImageView
+        android:id="@+id/kitten_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/kitten_description_text_view"
+        android:src="@drawable/default_kitten_1"
+        android:contentDescription="Image of kitten"
+        />
+
+</RelativeLayout>

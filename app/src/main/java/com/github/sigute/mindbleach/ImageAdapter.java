@@ -3,13 +3,17 @@ package com.github.sigute.mindbleach;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.sigute.mindbleach.kittenapi.Kitten;
 import com.github.sigute.mindbleach.kittenapi.KittenFactory;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Created by spikereborn on 06/03/2015.
@@ -18,7 +22,7 @@ public class ImageAdapter extends PagerAdapter
 {
     Context context;
     private KittenFactory kittenFactory;
-    private Kitten[] kittens;
+    private List<Kitten> kittens;
 
     ImageAdapter(final Context context)
     {
@@ -42,36 +46,42 @@ public class ImageAdapter extends PagerAdapter
                 });
 
             }
-        }, 30000);
+        }, 10000);
     }
 
     @Override
     public int getCount()
     {
-        return kittens.length;
+        return kittens.size();
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object)
     {
-        return view == ((ImageView) object);
+        return view == object;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position)
     {
-        ImageView imageView = new ImageView(context);
-        int padding = 5; //context.getResources().getDimensionPixelSize(R.dimen.padding_medium);
-        imageView.setPadding(padding, padding, padding, padding);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        imageView.setImageBitmap(kittens[position].getKittenImage());
-        ((ViewPager) container).addView(imageView, 0);
-        return imageView;
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.kitten_layout, null);
+
+        ImageView kittenImageView = (ImageView) view.findViewById(R.id.kitten_image_view);
+        Picasso.with(context).load(kittens.get(position).getImageURL()).into(kittenImageView);
+
+        TextView kittenDescription = (TextView) view
+                .findViewById(R.id.kitten_description_text_view);
+        kittenDescription.setText("This kitten comes from " + kittens.get(position).getSourceURL());
+
+        container.addView(view, 0);
+        return view;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object)
     {
-        ((ViewPager) container).removeView((ImageView) object);
+        container.removeView((View) object);
     }
 }
