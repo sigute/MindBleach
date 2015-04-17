@@ -69,7 +69,8 @@ public class ImageAdapter extends PagerAdapter
         View view = inflater.inflate(R.layout.kitten_layout, null);
 
         ImageView kittenImageView = (ImageView) view.findViewById(R.id.kitten_image_view);
-        Picasso.with(context).load(kittens.get(position).getImageURL()).into(kittenImageView);
+        Picasso.with(context).load(kittens.get(position).getImageURL()).fit().centerInside()
+                .into(kittenImageView);
 
         TextView kittenDescription = (TextView) view
                 .findViewById(R.id.kitten_description_text_view);
