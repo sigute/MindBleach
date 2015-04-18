@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Factory for kittens!
  * Created by sigute on 04/03/2015.
@@ -25,7 +27,6 @@ public class KittenFactory
     private static KittenFactory instance;
 
     private Context context;
-    private int currentKittenIndex;
     private List<Kitten> kittenList;
 
     public static synchronized KittenFactory getInstance(Context context)
@@ -42,15 +43,20 @@ public class KittenFactory
         this.context = context;
         kittenList = new ArrayList<Kitten>();
         addDefaultKittens();
-        currentKittenIndex = 0;
+    }
 
-        //should probably do this fetch in the background!
+    public void fetchKittens()
+    {
         new Thread(new Runnable()
         {
             @Override
             public void run()
             {
-                fetchMoreKittens();
+                List<Kitten> newKittens = fetchMoreKittens();
+                kittenList.addAll(newKittens);
+                //TODO check whether kittens are loaded - might be an error!
+
+                EventBus.getDefault().post(new KittensLoadedEvent(newKittens));
             }
         }).start();
     }
@@ -64,7 +70,7 @@ public class KittenFactory
         //         "Exploring kitten by Rosendahl"));
     }
 
-    private void fetchMoreKittens()
+    private List<Kitten> fetchMoreKittens()
     {
         //TODO
         //figure out what happens if internet is down
@@ -83,7 +89,8 @@ public class KittenFactory
             parser.nextTag();
 
             List<Kitten> newKittens = readResponse(parser);
-            kittenList.addAll(newKittens);
+            //TODO check whether read worked?
+            return newKittens;
         }
         catch (XmlPullParserException e)
         {
@@ -107,6 +114,10 @@ public class KittenFactory
                 }
             }
         }
+
+        //TODO should deal with errors and then null won't be needed
+        // new event for error?
+        return null;
     }
 
     private List<Kitten> readResponse(XmlPullParser parser)
@@ -273,33 +284,6 @@ public class KittenFactory
                     break;
             }
         }
-    }
-
-    public Kitten getNextKitten()
-    {
-        currentKittenIndex++;
-
-        if (currentKittenIndex > kittenList.size())
-        {
-            fetchMoreKittens();
-        }
-
-        //check whether internet might have been down, ie handle scenario when there are no more kittens even after fetch :( maybe start at the start of list?
-
-        //check whether kitten list might be getting to the end, if so, fetch more kittens in background when only a few kittens remain.
-
-        return kittenList.get(currentKittenIndex);
-    }
-
-    public Kitten getPreviousKitten()
-    {
-        if (currentKittenIndex == 0)
-        {
-            return null;
-        }
-
-        currentKittenIndex--;
-        return kittenList.get(currentKittenIndex);
     }
 
     public List<Kitten> getKittens()

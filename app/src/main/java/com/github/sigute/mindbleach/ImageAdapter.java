@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.sigute.mindbleach.kittenapi.Kitten;
-import com.github.sigute.mindbleach.kittenapi.KittenFactory;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,32 +21,12 @@ import java.util.List;
 public class ImageAdapter extends PagerAdapter
 {
     Context context;
-    private KittenFactory kittenFactory;
     private List<Kitten> kittens;
 
     ImageAdapter(final Context context)
     {
         this.context = context;
-
-        kittenFactory = KittenFactory.getInstance(context);
-        kittens = kittenFactory.getKittens();
-
-        new java.util.Timer().schedule(new java.util.TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                ((Activity) context).runOnUiThread(new Runnable()
-                {
-                    public void run()
-                    {
-                        kittens = kittenFactory.getKittens();
-                        notifyDataSetChanged();
-                    }
-                });
-
-            }
-        }, 10000);
+        kittens = new ArrayList<Kitten>();
     }
 
     @Override
@@ -84,5 +64,17 @@ public class ImageAdapter extends PagerAdapter
     public void destroyItem(ViewGroup container, int position, Object object)
     {
         container.removeView((View) object);
+    }
+
+    public void addKittens(final List<Kitten> newKittens)
+    {
+        ((Activity) context).runOnUiThread(new Runnable()
+        {
+            public void run()
+            {
+                kittens.addAll(newKittens);
+                notifyDataSetChanged();
+            }
+        });
     }
 }

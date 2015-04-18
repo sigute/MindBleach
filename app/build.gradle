@@ -23,5 +23,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
 
+    // picture loading and management
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    //event management
+    compile 'de.greenrobot:eventbus:2.4.0'
 }
