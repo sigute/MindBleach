@@ -28,4 +28,7 @@ dependencies {
 
     //event management
     compile 'de.greenrobot:eventbus:2.4.0'
+
+    //loading indicator
+    compile 'com.pnikosis:materialish-progress:1.5'
 }

@@ -2,9 +2,12 @@ package com.github.sigute.mindbleach;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.TextView;
 
 import com.github.sigute.mindbleach.kittenapi.KittenFactory;
 import com.github.sigute.mindbleach.kittenapi.KittensLoadedEvent;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import de.greenrobot.event.EventBus;
 
@@ -18,10 +21,6 @@ public class MainActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        adapter = new ImageAdapter(this);
-        viewPager.setAdapter(adapter);
 
         KittenFactory.getInstance(this).fetchKittens();
     }
@@ -42,6 +41,25 @@ public class MainActivity extends BaseActivity
 
     public void onEvent(KittensLoadedEvent event)
     {
+        if (adapter == null)
+        {
+            runOnUiThread(new Runnable()
+            {
+                public void run()
+                {
+                    ProgressWheel progressWheel = (ProgressWheel) findViewById(R.id.loading_wheel);
+                    progressWheel.setVisibility(View.GONE);
+
+                    TextView loadingTextView = (TextView) findViewById(R.id.loading_text_view);
+                    loadingTextView.setVisibility(View.GONE);
+                }
+            });
+
+            ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+            adapter = new ImageAdapter(this);
+            viewPager.setAdapter(adapter);
+        }
+
         adapter.addKittens(event.getKittens());
     }
 }
