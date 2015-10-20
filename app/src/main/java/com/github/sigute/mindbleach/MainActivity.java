@@ -1,5 +1,6 @@
 package com.github.sigute.mindbleach;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -11,8 +12,7 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 
 import de.greenrobot.event.EventBus;
 
-
-public class MainActivity extends BaseActivity
+public class MainActivity extends Activity
 {
     private ImageAdapter adapter;
 

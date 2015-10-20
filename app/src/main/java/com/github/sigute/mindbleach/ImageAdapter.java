@@ -17,9 +17,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by spikereborn on 06/03/2015.
- */
 public class ImageAdapter extends PagerAdapter
 {
     Context context;
@@ -28,7 +25,7 @@ public class ImageAdapter extends PagerAdapter
     ImageAdapter(final Context context)
     {
         this.context = context;
-        kittens = new ArrayList<Kitten>();
+        kittens = new ArrayList<>();
     }
 
     @Override

@@ -14,10 +14,6 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
-/**
- * Factory for kittens!
- * Created by sigute on 04/03/2015.
- */
 public class KittenFactory
 {
     private static final String KITTEN_API_URL = "http://thecatapi.com/api/images/";

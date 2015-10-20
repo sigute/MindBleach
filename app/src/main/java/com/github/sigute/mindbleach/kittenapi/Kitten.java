@@ -1,8 +1,5 @@
 package com.github.sigute.mindbleach.kittenapi;
 
-/**
- * Created by sigute on 04/03/2015.
- */
 public class Kitten
 {
     private String imageURL;
