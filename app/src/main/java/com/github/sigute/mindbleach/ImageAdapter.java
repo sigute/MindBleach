@@ -48,31 +48,29 @@ public class ImageAdapter extends PagerAdapter
         final View view = inflater.inflate(R.layout.kitten_layout, null);
 
         ImageView kittenImageView = (ImageView) view.findViewById(R.id.kitten_image_view);
-        Picasso.with(context).load(kittens.get(position).getImageURL()).fit().centerInside()
+        final ProgressWheel progressWheel = (ProgressWheel) view.findViewById(R.id.kitten_loading_wheel);
+        final TextView loadingTextView = (TextView) view.findViewById(R.id.kitten_loading_text_view);
+        TextView kittenDescription = (TextView) view.findViewById(R.id.kitten_description_text_view);
+
+        kittenDescription.setText("This kitten comes from " + kittens.get(position).getSourceURL());
+        Picasso.with(context)
+                .load(kittens.get(position).getImageURL())
+                .fit()
+                .centerInside()
                 .into(kittenImageView, new Callback()
                 {
                     @Override
                     public void onSuccess()
                     {
-                        ProgressWheel progressWheel = (ProgressWheel) view
-                                .findViewById(R.id.kitten_loading_wheel);
                         progressWheel.setVisibility(View.GONE);
-
-                        TextView loadingTextView = (TextView) view
-                                .findViewById(R.id.kitten_loading_text_view);
                         loadingTextView.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onError()
                     {
-
                     }
                 });
-
-        TextView kittenDescription = (TextView) view
-                .findViewById(R.id.kitten_description_text_view);
-        kittenDescription.setText("This kitten comes from " + kittens.get(position).getSourceURL());
 
         container.addView(view, 0);
         return view;
