@@ -1,14 +1,3 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.3.0'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
-    }
-}
-
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 
 repositories {
@@ -19,13 +8,13 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.github.sigute.mindbleach"
-        minSdkVersion 16
-        targetSdkVersion 23
+        minSdkVersion 21
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -38,14 +27,14 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 
     // picture loading and management
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 
     //event management
-    compile 'de.greenrobot:eventbus:2.4.0'
+    implementation 'de.greenrobot:eventbus:2.4.0'
 
     //loading indicator
-    compile 'com.pnikosis:materialish-progress:1.7'
+    implementation 'com.pnikosis:materialish-progress:1.7'
 }
